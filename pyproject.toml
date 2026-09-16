@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "facepass-liveness"
+version = "0.3.0"
+description = "Standalone local RGB liveness research for Fedora GNOME (milestone 3)"
+requires-python = ">=3.11"
+dependencies = [
+    "mediapipe==1.0.1",
+    "numpy>=2.2,<3",
+    "opencv-contrib-python>=4.13,<5",
+]
+
+[project.scripts]
+facepass = "facepass.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
