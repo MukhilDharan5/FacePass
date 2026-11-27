@@ -1,0 +1,13 @@
+{"check": "unit_and_integration_tests", "passed": true, "duration_ms": 116375, "exit_code": 0, "test_summary": ["----------------------------------------------------------------------", "Ran 318 tests in 115.757s", "", "OK"]}
+{"check": "dependency_consistency", "passed": true, "duration_ms": 774, "exit_code": 0}
+{"check": "verified_model", "passed": true, "duration_ms": 3668, "exit_code": 0}
+{"check": "real_daemon_missing_camera", "passed": true, "duration_ms": 3053, "exit_code": 0}
+{"check": "tracking_scenarios", "passed": true, "duration_ms": 679, "exit_code": 0}
+{"check": "motion_scenarios", "passed": true, "duration_ms": 1430, "exit_code": 0}
+{"check": "blink_scenarios", "passed": true, "duration_ms": 922, "exit_code": 0}
+{"check": "gaze_scenarios", "passed": true, "duration_ms": 1043, "exit_code": 0}
+{"check": "illumination_scenarios", "passed": true, "duration_ms": 25111, "exit_code": 0}
+{"check": "replay_scenarios", "passed": true, "duration_ms": 4972, "exit_code": 0}
+{"check": "temporal_scenarios", "passed": true, "duration_ms": 102, "exit_code": 0}
+{"check": "observation_scenarios", "passed": true, "duration_ms": 104, "exit_code": 0}
+{"all_checks_passed": true, "check_count": 12, "model_check_skipped": false, "physical_validation_performed": false}

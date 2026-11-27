@@ -1,0 +1,25 @@
+name: Verify research pipeline
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Install isolated project dependencies
+        run: python -m pip install .
+      - name: Fetch and verify pinned publisher model
+        run: python tools/fetch_model.py
+      - name: Run unit, socket integration and generated scenario checks
+        run: python tools/verify_project.py

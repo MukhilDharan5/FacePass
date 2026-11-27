@@ -40,7 +40,10 @@ def run(options):
 
         cv2.setNumThreads(1)
         writer = DiagnosticFrames(options.save_diagnostic_frames) if options.save_diagnostic_frames else None
-        session = LivenessSession(lambda: MediaPipeLandmarker(options.model), max_duration=options.duration)
+        session = LivenessSession(lambda: MediaPipeLandmarker(options.model), max_duration=options.duration,
+                                  adaptive=not options.fixed_window,
+                                  extension_duration=options.extension_duration,
+                                  quality_profile=options.quality_profile)
         if session.start().terminal:
             emit("final", result=session.current_result().to_dict())
             return
@@ -77,7 +80,7 @@ def run(options):
                             cv2.circle(annotated, (int(x * width), int(y * height)), 1, (0, 220, 0), -1)
                         x0, y0, x1, y1 = face_bounds(points, frame.shape)
                         cv2.rectangle(annotated, (x0, y0), (x1, y1), (0, 220, 0), 1)
-                cv2.putText(annotated, "CAPTURE ONLY - NO LIVENESS", (12, 25),
+                cv2.putText(annotated, "ADAPTIVE OBSERVATION/TEMPORAL - LIVE DISABLED", (12, 25),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 180, 255), 2)
                 if annotated.shape[1] > 640:
                     annotated = cv2.resize(annotated, (640, int(annotated.shape[0] * 640 / annotated.shape[1])))

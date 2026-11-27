@@ -42,6 +42,47 @@ def synthetic_frame():
     return np.repeat(gray[:, :, None], 3, axis=2)
 
 
+def blink_mesh(*, left_ear=0.30, right_ear=0.30, eye_width=36.0, yaw=0.0, pitch=0.0, roll=0.0):
+    """Generated eye contours; static pixels do not simulate a real eyelid video."""
+    points = projected_mesh(yaw=yaw, pitch=pitch, roll=roll)
+    angle = np.deg2rad(roll)
+    rotate = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
+    # Keep the outer-eye pose/tracking anchors unchanged. All synthetic motion is
+    # confined to the inner corners and eyelids used by the blink detector.
+    for indices, ear, start in (
+        ((362, 385, 387, 263, 373, 380), left_ear,
+         points[263, :2] * [640, 480] - np.array([eye_width, 0]) @ rotate.T),
+        ((33, 160, 158, 133, 153, 144), right_ear, points[33, :2] * [640, 480]),
+    ):
+        offsets = np.array([[0, 0], [eye_width / 3, -ear * eye_width / 2],
+                            [2 * eye_width / 3, -ear * eye_width / 2], [eye_width, 0],
+                            [2 * eye_width / 3, ear * eye_width / 2],
+                            [eye_width / 3, ear * eye_width / 2]])
+        points[list(indices), :2] = (start + offsets @ rotate.T) / [640, 480]
+    return points
+
+
+def gaze_mesh(*, horizontal=0.5, vertical=0.0, right_horizontal=None, right_vertical=None,
+              iris_diameter=8.0, eye_width=36.0, ear=0.30, **pose):
+    """Ideal iris geometry over static pixels, not physical eye image inference."""
+    points = blink_mesh(left_ear=ear, right_ear=ear, eye_width=eye_width, **pose)
+    for eye, rim, center_index, x, y in (
+        ((362, 263), (474, 475, 476, 477), 473, horizontal, vertical),
+        ((33, 133), (469, 470, 471, 472), 468,
+         horizontal if right_horizontal is None else right_horizontal,
+         vertical if right_vertical is None else right_vertical),
+    ):
+        corners = points[list(eye), :2] * [640, 480]
+        axis = (corners[1] - corners[0]) / eye_width
+        normal = np.array([-axis[1], axis[0]])
+        center = corners[0] + eye_width * (x * axis + y * normal)
+        radius = iris_diameter / 2
+        offsets = np.array([radius * axis, -radius * normal, -radius * axis, radius * normal])
+        points[list(rim), :2] = (center + offsets) / [640, 480]
+        points[center_index, :2] = center / [640, 480]
+    return points
+
+
 class SyntheticBackend:
     def __init__(self):
         self.points = projected_mesh()
