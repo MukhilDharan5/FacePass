@@ -5,6 +5,7 @@ __pycache__/
 build/
 dist/
 models/*.task
+models/*.onnx
 diagnostics/
 evaluation-private/
 .agents/
@@ -15,3 +16,5 @@ evaluation-private/
 *.key
 *.p12
 *.pfx
+*.sock
+*.prof

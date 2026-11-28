@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "engine_version": "0.12.0",
+  "authentication_enabled": false,
+  "environment": {
+    "python": "3.14.8",
+    "machine": "x86_64",
+    "numpy": "2.5.3",
+    "opencv": "4.14.0",
+    "opencv_threads": 1
+  },
+  "physical_capture_measured": false,
+  "benchmarks": [
+    {
+      "workload": "real_model_blank_frame",
+      "initialization_ms": 897.432,
+      "frames": 60,
+      "wall_ms": 102.211,
+      "cpu_ms": 105.095,
+      "average_cpu_cores": 1.028,
+      "throughput_fps": 587.022,
+      "frame_ms": {
+        "count": 60,
+        "p50": 1.695,
+        "p95": 2.164,
+        "p99": 2.333,
+        "maximum": 2.358
+      },
+      "peak_rss_kib": 181148
+    },
+    {
+      "workload": "synthetic_full_detector_pipeline",
+      "frames": 60,
+      "wall_ms": 1277.218,
+      "cpu_ms": 1268.873,
+      "average_cpu_cores": 0.993,
+      "throughput_fps": 46.977,
+      "frame_ms": {
+        "count": 60,
+        "p50": 21.076,
+        "p95": 22.86,
+        "p99": 24.585,
+        "maximum": 24.75
+      },
+      "peak_rss_kib": 193288
+    }
+  ],
+  "interpretation": "Synthetic landmarks and blank model input measure engineering cost only. RSS is the process high-water mark; throughput excludes webcam pacing. Use facepass --profile on physical captures for end-to-end timing.",
+  "measured_local_date": "2026-10-11",
+  "reference_scope": "One 60-frame engineering run; no webcam, detected physical face or PAD accuracy measurement."
+}

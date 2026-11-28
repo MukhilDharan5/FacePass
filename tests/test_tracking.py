@@ -10,7 +10,7 @@ from facepass.results import Decision, SignalResult, TrackingState
 from facepass.session import LivenessSession
 from facepass.supervisor import validate_result
 from facepass.tracking import ANCHORS, FaceTracker, TrackingPolicy
-from test_session import Backend, Clock, good_frame, points
+from tests.test_session import Backend, Clock, good_frame, points
 
 
 def textured_frame():

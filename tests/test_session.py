@@ -70,7 +70,9 @@ class SessionTests(unittest.TestCase):
     def assert_non_success(self, result):
         self.assertNotEqual(result.decision, Decision.LIVE)
         self.assertEqual(result.confidence, 0.0)
-        self.assertTrue(all(not score.available and score.reliability == 0 for score in result.signals.values()))
+        self.assertTrue(all((name == "temporal_consistency" and score.confidence <= 0.5)
+                            or (not score.available and score.reliability == 0)
+                            for name, score in result.signals.items()))
 
     def test_quality_is_never_liveness(self):
         for _ in range(20):
@@ -110,6 +112,29 @@ class SessionTests(unittest.TestCase):
             self.assertEqual(result.decision, Decision.INSUFFICIENT_QUALITY)
             self.assertIn(reason, result.quality.reasons)
             self.assert_non_success(result)
+
+    def test_blur_before_timeout_clears_evidence_without_claiming_detectors_are_missing(self):
+        for _ in range(8):
+            observed = self.process()
+        self.assertTrue(observed.quality.acceptable)
+        self.assertGreater(observed.tracking.history_frame_count, 0)
+        self.frame = np.full((480, 640, 3), 128, dtype=np.uint8)
+        poor = self.process()
+        self.assertIn("blur", poor.quality.reasons)
+        self.clock.now = 105.1
+        result = self.session.current_result()
+        self.assertTrue(result.terminal)
+        self.assertEqual(result.reason, "observation_timeout")
+        self.assertEqual(result.decision, Decision.INSUFFICIENT_QUALITY)
+        self.assertTrue(self.backend.closed)
+        self.assertEqual(self.session.history, ())
+        self.assertIsNone(self.session.observation)
+        self.assertTrue(all(score.diagnostic_information == "quality_not_acceptable"
+                            and not score.available and score.reliability == 0
+                            for score in result.signals.values()))
+        self.assert_non_success(result)
+        from facepass.supervisor import validate_result
+        validate_result(json.loads(json.dumps(result.to_dict())))
 
     def test_partial_face_and_side_orientation_fail_quality(self):
         self.backend.faces = (points() - [0.4, 0, 0],)

@@ -4,8 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "facepass-liveness"
-version = "0.3.0"
-description = "Standalone local RGB liveness research for Fedora GNOME (milestone 3)"
+version = "0.14.0"
+description = "Local RGB research and experimental Fedora KDE face authentication"
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "mediapipe==1.0.1",
@@ -15,6 +16,11 @@ dependencies = [
 
 [project.scripts]
 facepass = "facepass.cli:main"
+facepass-evaluate = "facepass.evaluation:main"
+facepass-daemon = "facepass.daemon:main"
+facepass-client = "facepass.client:main"
+facepass-auth = "facepass.auth_cli:main"
+facepass-enroll = "facepass.enrollment_ui:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

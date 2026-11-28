@@ -15,7 +15,7 @@ from facepass.session import LivenessSession
 from facepass.supervisor import validate_result
 from facepass.tracking import TrackedSample
 from tools.synthetic_motion import SyntheticBackend, planar_mesh, projected_mesh, synthetic_frame
-from test_session import Clock
+from tests.test_session import Clock
 
 
 class MotionTests(unittest.TestCase):

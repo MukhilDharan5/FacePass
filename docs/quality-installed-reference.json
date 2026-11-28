@@ -1,0 +1,90 @@
+{
+  "version": "0.13.0",
+  "package_from_user_install": true,
+  "authentication_enabled": false,
+  "physical_camera_validation": false,
+  "synthetic_scenarios": [
+    {
+      "scenario": "moderate_blur",
+      "tolerant_acceptable": true,
+      "strict_acceptable": false,
+      "raw_blur": 9.06069179126444,
+      "evaluated_blur": 9.06069179126444,
+      "raw_luminance": 129.34321802146715,
+      "raw_contrast": 15.0,
+      "warnings": [
+        "moderate_blur",
+        "limited_contrast"
+      ],
+      "reasons": []
+    },
+    {
+      "scenario": "dim_and_blurred",
+      "tolerant_acceptable": true,
+      "strict_acceptable": false,
+      "raw_blur": 2.7371837437986635,
+      "evaluated_blur": 43.794939900778616,
+      "raw_luminance": 31.957492992411293,
+      "raw_contrast": 4.0,
+      "warnings": [
+        "moderate_blur",
+        "low_luminance",
+        "limited_contrast"
+      ],
+      "reasons": []
+    },
+    {
+      "scenario": "severe_blur",
+      "tolerant_acceptable": false,
+      "strict_acceptable": false,
+      "raw_blur": 1.3795972414947444,
+      "evaluated_blur": 1.3795972414947444,
+      "raw_luminance": 129.34190196212484,
+      "raw_contrast": 3.0,
+      "warnings": [],
+      "reasons": [
+        "blur",
+        "low_contrast"
+      ]
+    },
+    {
+      "scenario": "black",
+      "tolerant_acceptable": false,
+      "strict_acceptable": false,
+      "raw_blur": 0.0,
+      "evaluated_blur": 0.0,
+      "raw_luminance": 0.0,
+      "raw_contrast": 0.0,
+      "warnings": [],
+      "reasons": [
+        "blur",
+        "low_contrast",
+        "underexposure"
+      ]
+    },
+    {
+      "scenario": "white",
+      "tolerant_acceptable": false,
+      "strict_acceptable": false,
+      "raw_blur": 0.0,
+      "evaluated_blur": 0.0,
+      "raw_luminance": 255.0,
+      "raw_contrast": 0.0,
+      "warnings": [],
+      "reasons": [
+        "blur",
+        "low_contrast",
+        "overexposure"
+      ]
+    }
+  ],
+  "low_light_input_verified": true,
+  "original_pixels_preserved": true,
+  "continuity": {
+    "state": "STABLE",
+    "frames": 8,
+    "resets": 0,
+    "decision": "UNCERTAIN",
+    "confidence": 0.0
+  }
+}
